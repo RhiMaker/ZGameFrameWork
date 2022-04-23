@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 namespace ZGameFrameWork
 {
@@ -21,6 +22,7 @@ namespace ZGameFrameWork
         private Transform top;
         private Transform system;
         public RectTransform canvas;
+
         public UIManager()
         {
             GameObject obj = ResMgr.GetInstance().Load<GameObject>("UI/Canvas");
@@ -44,6 +46,7 @@ namespace ZGameFrameWork
                 {
                     callback(panelDic[panelName] as T);
                 }
+
                 return;
             }
 
@@ -90,7 +93,7 @@ namespace ZGameFrameWork
             }
         }
 
-        public T GetPanel<T>(string panelName) where T :BasePanel
+        public T GetPanel<T>(string panelName) where T : BasePanel
         {
             if (panelDic.ContainsKey(panelName))
             {
@@ -100,6 +103,22 @@ namespace ZGameFrameWork
             {
                 return null;
             }
+        }
+
+        public static void AddCustomEventListener(UIBehaviour control, EventTriggerType type,
+            UnityAction<BaseEventData> callback)
+        {
+            EventTrigger trigger = control.GetComponent<EventTrigger>();
+            if (trigger == null)
+            {
+                trigger = control.AddComponent<EventTrigger>();
+            }
+
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = type;
+            entry.callback.AddListener(callback);
+
+            trigger.triggers.Add(entry);
         }
     }
 }
