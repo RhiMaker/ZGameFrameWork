@@ -44,7 +44,6 @@ namespace ZGameFrameWork
 
         public void GetObj(string name, UnityAction<GameObject> callback)
         {
-            GameObject obj = null;
             if (poolDic.ContainsKey(name) && poolDic[name].poolList.Count > 0)
             {
                 callback(poolDic[name].GetObj());
