@@ -46,7 +46,6 @@ namespace ZGameFrameWork
                 {
                     callback(panelDic[panelName] as T);
                 }
-
                 return;
                 
             }
