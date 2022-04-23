@@ -47,7 +47,6 @@ namespace ZGameFrameWork
                     callback(panelDic[panelName] as T);
                 }
                 return;
-                
             }
 
             ResMgr.GetInstance().LoadAsync<GameObject>("UI/" + panelName, (obj) =>
