@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using ZGameFrameWork;
 
 namespace ZGameFrameWork
@@ -14,7 +15,7 @@ namespace ZGameFrameWork
         {
             fatherObj = new GameObject(obj.name);
             fatherObj.transform.parent = poolObj.transform;
-            poolList = new List<GameObject>() {};
+            poolList = new List<GameObject>() { };
             PushObj(obj);
         }
 
@@ -41,19 +42,21 @@ namespace ZGameFrameWork
         public Dictionary<string, PoolData> poolDic = new Dictionary<string, PoolData>();
         private GameObject poolObj;
 
-        public GameObject GetObj(string name)
+        public void GetObj(string name, UnityAction<GameObject> callback)
         {
             GameObject obj = null;
             if (poolDic.ContainsKey(name) && poolDic[name].poolList.Count > 0)
             {
-                obj = poolDic[name].GetObj();
+                callback(poolDic[name].GetObj());
             }
             else
             {
-                obj = GameObject.Instantiate(Resources.Load<GameObject>(name));
-                obj.name = name;
+                ResMgr.GetInstance().LoadAsync<GameObject>(name, (o) =>
+                {
+                    o.name = name;
+                    callback(o);
+                });
             }
-            return obj;
         }
 
         public void PushObj(string name, GameObject obj)
@@ -62,13 +65,14 @@ namespace ZGameFrameWork
             {
                 poolObj = new GameObject("PoolObj");
             }
+
             if (poolDic.ContainsKey(name))
             {
                 poolDic[name].PushObj(obj);
             }
             else
             {
-                poolDic.Add(name,new PoolData(obj,poolObj));
+                poolDic.Add(name, new PoolData(obj, poolObj));
             }
         }
 

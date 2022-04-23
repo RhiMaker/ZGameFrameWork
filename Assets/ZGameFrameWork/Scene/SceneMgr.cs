@@ -14,12 +14,12 @@ namespace ZGameFrameWork
             SceneManager.LoadScene(name);
             fun();
         }
-        public void LoadSceneAsyn(string name,UnityAction fun)
+        public void LoadSceneAsync(string name,UnityAction fun)
         {
-            MonoMgr.GetInstance().StartCoroutine(ReallyLoadSceneAsyn(name, fun));
+            MonoMgr.GetInstance().StartCoroutine(ReallyLoadSceneAsync(name, fun));
         }
 
-        private IEnumerator ReallyLoadSceneAsyn(string name,UnityAction fun)
+        private IEnumerator ReallyLoadSceneAsync(string name,UnityAction fun)
         {
             AsyncOperation ao = SceneManager.LoadSceneAsync(name);
             while (!ao.isDone)
