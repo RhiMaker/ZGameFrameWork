@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using ZGameFrameWork;
@@ -33,7 +32,7 @@ namespace ZGameFrameWork
 
     public class EventCenter : BaseManager<EventCenter>
     {
-        private Dictionary<string, IEventInfo> eventDic = new FlexibleDictionary<string, IEventInfo>();
+        private Dictionary<string, IEventInfo> eventDic = new Dictionary<string, IEventInfo>();
 
         public void AddEventListener<T>(string name, UnityAction<T> action)
         {

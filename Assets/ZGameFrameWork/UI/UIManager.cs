@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -87,7 +86,7 @@ namespace ZGameFrameWork
             if (panelDic.ContainsKey(panelName))
             {
                 panelDic[panelName].HideMe();
-                GameObject.Destroy(panelDic[panelName].GameObject());
+                GameObject.Destroy(panelDic[panelName].gameObject);
                 panelDic.Remove(panelName);
             }
         }
@@ -110,7 +109,7 @@ namespace ZGameFrameWork
             EventTrigger trigger = control.GetComponent<EventTrigger>();
             if (trigger == null)
             {
-                trigger = control.AddComponent<EventTrigger>();
+                trigger = control.gameObject.AddComponent<EventTrigger>();
             }
 
             EventTrigger.Entry entry = new EventTrigger.Entry();
